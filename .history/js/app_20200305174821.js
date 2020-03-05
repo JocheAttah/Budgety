@@ -157,8 +157,8 @@ var uiController = (function() {
         }, 
 
         deleteListItem : function (selectorID){
-             var el = document.getElementById(selectorID);
-             el.parentNode.removeChild(el);            
+             var el = document.querySelector(selectorID);
+             el.parentNode.remo          
         },
 
         clearFields: function () {

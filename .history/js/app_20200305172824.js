@@ -156,11 +156,6 @@ var uiController = (function() {
 
         }, 
 
-        deleteListItem : function (selectorID){
-             var el = document.getElementById(selectorID);
-             el.parentNode.removeChild(el);            
-        },
-
         clearFields: function () {
             var fields, fieldArr;
 
@@ -258,13 +253,15 @@ var controller = (function(budgetCtrl, uiCtrl){
 
 
             // 1. delete item form data structure
-            budgetCtrl.deleteItem(type, ID);
+            
+
+
 
             // 2. delete item from UI
-            uiCtrl.deleteListItem(itemID);
+
+
 
             // update amd sshow the new budget
-            updateBudget();
 
         }
 

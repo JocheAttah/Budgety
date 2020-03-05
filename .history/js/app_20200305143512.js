@@ -57,24 +57,6 @@ var budgetController = (function() {
             // return the nw element
             return newItem;
         },
-
-        deleteItem : function (type, id) {
-            var ids, index;
-            
-            ids = data.allItems[type].map(function(current) {
-                return current.id
-            });
-            
-            index =  ids.indexOf(id);
-
-            if (index !== -1){
-                data.allItems[type].splice(index, 1);
-            }
-
-        },
-
-
-
         calculateBudget : function(){
             // 1. calculate total income and expenses
             calculateTotals('exp');
@@ -142,10 +124,10 @@ var uiController = (function() {
             
             if (type === 'inc'){
                 element = document.querySelector(DOMstrings.inputIncome);
-                html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">+ %value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">+ %value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
             } else if (type === 'exp'){
                 element = document.querySelector(DOMstrings.inputExpenses);
-                html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">- %value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">- %value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
             }
 
             newHtml = html.replace('%id%', obj.id);
@@ -156,9 +138,9 @@ var uiController = (function() {
 
         }, 
 
-        deleteListItem : function (selectorID){
-             var el = document.getElementById(selectorID);
-             el.parentNode.removeChild(el);            
+        deleteListItem: function(event){
+            console.log(event.target)
+            
         },
 
         clearFields: function () {
@@ -197,7 +179,7 @@ var uiController = (function() {
 // GLOBAL APP CONTROLLER
 var controller = (function(budgetCtrl, uiCtrl){
     // some code goes here
-    var setupEventListeners = function (){
+    var setupInit = function (){
         var DOM = uiCtrl.getDOMstrings();
         document.querySelector(DOM.inputBtn).addEventListener("click", ctrlAddItem);
 
@@ -206,7 +188,9 @@ var controller = (function(budgetCtrl, uiCtrl){
                 ctrlAddItem()
             }
         });
-        document.querySelector(DOM.container).addEventListener("click", ctrlDeleteItem);
+    
+
+
     };
 
 
@@ -243,40 +227,12 @@ var controller = (function(budgetCtrl, uiCtrl){
 
         }                
     };
-    var ctrlDeleteItem = function(event){
-        var itemID, splitItemID,
-        
-        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
-        // console.log(itemID);
-        
-        if(itemID){
-            splitItemID = itemID.split('-');
-            type = splitItemID[0];
-            ID = parseInt(splitItemID[1]);
-            console.log(ID);
-
-
-
-            // 1. delete item form data structure
-            budgetCtrl.deleteItem(type, ID);
-
-            // 2. delete item from UI
-            uiCtrl.deleteListItem(itemID);
-
-            // update amd sshow the new budget
-            updateBudget();
-
-        }
-
-
-         
-    };
 
 
     return {
         init: function(){
             console.log("Application has Started");
-            return setupEventListeners();
+            return setupInit();
         }
     }
 })(budgetController, uiController);

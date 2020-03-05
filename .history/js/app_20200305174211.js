@@ -157,7 +157,7 @@ var uiController = (function() {
         }, 
 
         deleteListItem : function (selectorID){
-             var el = document.getElementById(selectorID);
+             var el = document.querySelector(selectorID);
              el.parentNode.removeChild(el);            
         },
 
@@ -261,10 +261,11 @@ var controller = (function(budgetCtrl, uiCtrl){
             budgetCtrl.deleteItem(type, ID);
 
             // 2. delete item from UI
-            uiCtrl.deleteListItem(itemID);
+            budgetCtrl.de
+
+
 
             // update amd sshow the new budget
-            updateBudget();
 
         }
 
